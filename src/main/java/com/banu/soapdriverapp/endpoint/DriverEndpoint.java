@@ -1,8 +1,7 @@
 package com.banu.soapdriverapp.endpoint;
 
 import com.banu.soapdriverapp.entity.Driver;
-import com.banu.soapdriverapp.model.GetAllDriversRequest;
-import com.banu.soapdriverapp.model.GetAllDriversResponse;
+import com.banu.soapdriverapp.model.*;
 import com.banu.soapdriverapp.service.DriverService;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
@@ -26,5 +25,19 @@ public class DriverEndpoint {
     public GetAllDriversResponse getAllDrivers(@RequestPayload GetAllDriversRequest request) {
         return driverService.getAllDrivers(request);
     }
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "GetDriverByIdRequest")
+    @ResponsePayload
+    public GetDriverByIdResponse getDriverById(@RequestPayload GetDriverByIdRequest request) {
+        return driverService.getDriverById(request);
+    }
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "AddDriverRequest")
+    @ResponsePayload
+    public AddDriverResponse getDriverById(@RequestPayload AddDriverRequest request) {
+        return driverService.addDriver(request);
+    }
+
+
 
 }

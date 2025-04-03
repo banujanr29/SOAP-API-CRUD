@@ -39,7 +39,6 @@
                 <xs:element name="date_of_birth" type="xs:date"/>
                 <xs:element name="gender" type="xs:string"/>
                 <xs:element name="created_by" type="xs:string"/>
-                <xs:element name="created_at" type="xs:dateTime"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>

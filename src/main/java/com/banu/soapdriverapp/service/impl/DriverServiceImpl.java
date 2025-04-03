@@ -2,8 +2,7 @@ package com.banu.soapdriverapp.service.impl;
 
 import com.banu.soapdriverapp.dao.DriverDao;
 import com.banu.soapdriverapp.entity.Driver;
-import com.banu.soapdriverapp.model.GetAllDriversRequest;
-import com.banu.soapdriverapp.model.GetAllDriversResponse;
+import com.banu.soapdriverapp.model.*;
 import com.banu.soapdriverapp.service.DriverService;
 import com.banu.soapdriverapp.utils.DateUtil;
 import org.springframework.jdbc.datasource.DataSourceUtils;
@@ -45,4 +44,48 @@ public class DriverServiceImpl implements DriverService {
         }
         return response;
     }
+
+    @Override
+    public GetDriverByIdResponse getDriverById(GetDriverByIdRequest request) {
+        Driver driver = driverDao.getDriverById(request.getId());
+        GetDriverByIdResponse response = new GetDriverByIdResponse();
+        response.setId(driver.getId());
+        response.setName(driver.getName());
+        response.setNic(driver.getNic());
+        response.setVehicleNo(driver.getVehicle_no());
+        response.setVehicleType(driver.getVehicle_type());
+        response.setDateOfBirth(DateUtil.convertToXMLGregorianCalendar(driver.getDate_of_birth()));
+        response.setGender(driver.getGender());
+
+        return response;
+
+    }
+
+    @Override
+    public AddDriverResponse addDriver(AddDriverRequest request) {
+        Driver driver = new Driver();
+
+        driver.setName(request.getName());
+        driver.setNic(request.getNic());
+        driver.setVehicle_no(request.getVehicleNo());
+        driver.setVehicle_type(request.getVehicleType());
+        driver.setDate_of_birth(DateUtil.convertXMLGregorianCalendarToLocalDateTime(request.getDateOfBirth()));
+        driver.setGender(request.getGender());
+        driver.setCreated_by(request.getCreatedBy());
+
+        Integer driverId = driverDao.addDriver(driver);
+
+        AddDriverResponse response = new AddDriverResponse();
+        if (driverId != null) {
+            response.setMessage("Driver created successfully with ID : " + driverId);
+            response.setStatus("SUCCESS");
+        } else {
+            response.setMessage("Driver not created");
+            response.setStatus("FAILED");
+        }
+
+        return response;
+    }
+
+
 }
