@@ -11,4 +11,8 @@ public interface DriverDao {
      Driver getDriverById(int id);
 
      Integer addDriver(Driver driver);
+
+     boolean updateDriver(int id, Driver driver);
+
+     void deleteDriver(int id);
 }

@@ -12,4 +12,8 @@ public interface DriverService {
     GetDriverByIdResponse getDriverById(GetDriverByIdRequest request);
 
     AddDriverResponse addDriver(AddDriverRequest request);
+
+    UpdateDriverResponse updateDriverById(UpdateDriverRequest request);
+
+    DeleteDriverResponse deleteDriver(DeleteDriverRequest request);
 }
