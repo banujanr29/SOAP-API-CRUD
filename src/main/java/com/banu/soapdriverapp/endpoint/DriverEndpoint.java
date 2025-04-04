@@ -38,6 +38,19 @@ public class DriverEndpoint {
         return driverService.addDriver(request);
     }
 
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "UpdateDriverRequest")
+    @ResponsePayload
+    public UpdateDriverResponse UpdateDriverById(@RequestPayload UpdateDriverRequest request) {
+        return driverService.updateDriverById(request);
+    }
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "DeleteDriverRequest")
+    @ResponsePayload
+    public DeleteDriverResponse DeleteDriverById(@RequestPayload DeleteDriverRequest request) {
+        return driverService.deleteDriver(request);
+    }
+
+
 
 
 }

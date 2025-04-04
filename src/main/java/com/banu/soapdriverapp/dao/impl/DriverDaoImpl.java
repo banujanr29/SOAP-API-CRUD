@@ -201,4 +201,89 @@ public class DriverDaoImpl implements DriverDao {
         return driverId;
 
     }
+
+    @Override
+    public boolean updateDriver(int id, Driver driver) throws EmptyResultDataAccessException {
+        Connection connection = null;
+        CallableStatement callableSt = null;
+        ResultSet resultSet = null;
+
+        java.sql.Date sqlDate = (driver.getDate_of_birth() != null) ? Date.valueOf(driver.getDate_of_birth()) : null;
+
+        try{
+            Long startTime = System.currentTimeMillis();
+            connection = DataSourceUtils.getConnection(jdbcTemplate.getDataSource());
+            callableSt = connection.prepareCall(UPDATE_DRIVER_BY_ID);
+            callableSt.setInt(1, id);
+            callableSt.setString(2, driver.getName());
+            callableSt.setString(3, driver.getNic());
+            callableSt.setString(4, driver.getVehicle_no());
+            callableSt.setString(5, driver.getVehicle_type());
+            callableSt.setDate(6, sqlDate);
+            callableSt.setString(7, driver.getGender());
+            callableSt.setString(8, driver.getCreated_by());
+            callableSt.execute();
+
+            Long endTime = System.currentTimeMillis();
+            log.info("----------Execution time for update driver with id {} : {}", id, (endTime - startTime));
+
+            resultSet = callableSt.getResultSet();
+            resultSet.next();
+            boolean RESULT = resultSet.getBoolean(1);
+            return RESULT;
+
+        } catch (SQLException e) {
+            log.info("An error occurred while request to update driver with ID {}, Cause : {}", id, e.toString());
+            throw new RuntimeException("------Failed to update driver " + ": " + e.getMessage(), e);
+        } finally {
+            try {
+                if(callableSt != null) {
+                    callableSt.close();
+                }
+            }
+            catch (SQLException e) {
+                e.printStackTrace();
+            }
+            if(connection != null){
+                DataSourceUtils.releaseConnection(connection, jdbcTemplate.getDataSource());
+            }
+        }
+    }
+
+    @Override
+    public void deleteDriver(int id) {
+        Long startTime = System.currentTimeMillis();
+        Connection connection = null;
+        CallableStatement callableSt = null;
+
+        try{
+            startTime = System.currentTimeMillis();
+            connection = DataSourceUtils.getConnection(jdbcTemplate.getDataSource());
+            callableSt = connection.prepareCall(DELETE_DRIVER_BY_ID);
+            callableSt.setInt(1, id);
+            callableSt.execute();
+
+            Long endTime = System.currentTimeMillis();
+            log.info("----------Execution time for getting all drivers : {}",(endTime - startTime));
+
+
+        } catch (SQLException e) {
+            log.info("An error occurred while request for deleting driver, Cause :" + e.toString());
+
+            throw new RuntimeException("------Cannot delete driver " + ": " + e.getMessage(), e);
+        }finally {
+            try {
+                if(callableSt != null) {
+                    callableSt.close();
+                }
+            }
+            catch (SQLException e) {
+                e.printStackTrace();
+            }
+            if(connection != null){
+                DataSourceUtils.releaseConnection(connection, jdbcTemplate.getDataSource());
+            }
+        }
+
+    }
 }

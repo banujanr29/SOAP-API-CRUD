@@ -87,5 +87,39 @@ public class DriverServiceImpl implements DriverService {
         return response;
     }
 
+    @Override
+    public UpdateDriverResponse updateDriverById(UpdateDriverRequest request) {
+        Driver driver = new Driver();
+
+        driver.setName(request.getName());
+        driver.setNic(request.getNic());
+        driver.setVehicle_no(request.getVehicleNo());
+        driver.setVehicle_type(request.getVehicleType());
+        driver.setDate_of_birth(DateUtil.convertXMLGregorianCalendarToLocalDateTime(request.getDateOfBirth()));
+        driver.setGender(request.getGender());
+
+        Boolean daoResponse = driverDao.updateDriver(request.getId(),driver);
+
+        UpdateDriverResponse response = new UpdateDriverResponse();
+
+        if (daoResponse) {
+            response.setMessage("Driver with ID: "+request.getId()+ " updated successfully");
+            response.setStatus("SUCCESS");
+        } else {
+            response.setMessage("Driver not updated");
+            response.setStatus("FAILED");
+        }
+        return response;
+    }
+
+    @Override
+    public DeleteDriverResponse deleteDriver(DeleteDriverRequest request) {
+        driverDao.deleteDriver(request.getId());
+        DeleteDriverResponse response = new DeleteDriverResponse();
+        response.setMessage("Driver with ID: "+request.getId()+ " deleted successfully");
+
+        return response;
+    }
+
 
 }

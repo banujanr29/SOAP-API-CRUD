@@ -90,21 +90,21 @@
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="updateDriverRequest">
+    <xs:element name="UpdateDriverRequest">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="id" type="xs:int"/>
-                <xs:element name="name" type="xs:string"/>
-                <xs:element name="nic" type="xs:string"/>
-                <xs:element name="vehicle_no" type="xs:string"/>
-                <xs:element name="vehicle_type" type="xs:string"/>
-                <xs:element name="date_of_birth" type="xs:date"/>
-                <xs:element name="gender" type="xs:string"/>
+                <xs:element name="name" type="xs:string" minOccurs="0"/>
+                <xs:element name="nic" type="xs:string" minOccurs="0"/>
+                <xs:element name="vehicle_no" type="xs:string" minOccurs="0"/>
+                <xs:element name="vehicle_type" type="xs:string" minOccurs="0"/>
+                <xs:element name="date_of_birth" type="xs:date" minOccurs="0"/>
+                <xs:element name="gender" type="xs:string" minOccurs="0"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
-    <xs:element name="updateDriverResponse">
+    <xs:element name="UpdateDriverResponse">
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="status" type="xs:string"/>
